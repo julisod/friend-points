@@ -2,8 +2,8 @@ import { NavigationContainer } from '@react-navigation/native'; //npm install @r
 //expo install react-native-screens react-native-safe-area-context
 import { createNativeStackNavigator } from '@react-navigation/native-stack'; //npm install @react-navigation/native-stack
 
-import HomeScreen from "./components/HomeScreen";
-import LoginScreen from "./components/LoginScreen";
+import TabNavigation from "./components/TabNavigation";
+import LoginScreen from "./components/logged-out/LoginScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -12,7 +12,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen options={{headerShown: false}} name="TabNavigation" component={TabNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );
