@@ -36,7 +36,7 @@ export default function LoginFields() {
         style={{ paddingLeft: 4,}}
         value={email}
         placeholder="Email"
-        leftIcon={{ type: 'material-community', name: 'email-outline' }}
+        leftIcon={{ type: 'fontisto', name: 'email' }}
         onChangeText={input => setEmail(input)}
       />
       <Input

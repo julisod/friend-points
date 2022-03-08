@@ -20,12 +20,12 @@ const auth = getAuth(app)
 const database = getDatabase(app);
 
 //realtime database
-const addUsertoDB = (email/* , name */) => {
+const addUsertoDB = (uid, email, name) => {
   push(
     ref(database, 'userlist/'),
-    { 
-      'email': email,
-      /* "name" : name  */});
+    { "uid" : uid,
+      "email": email,
+      "name" : name });
 }
 
 export { auth, database, addUsertoDB };

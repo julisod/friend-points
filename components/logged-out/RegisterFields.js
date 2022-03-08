@@ -26,9 +26,9 @@ export default function RegisterFields() {
   const register = () => {
     createUserWithEmailAndPassword(auth, email.trim(), password)
     .then((response) => {
-      console.log(response.UserCredentialImpl)
-      /* let uid = response.user.uid */
-      addUsertoDB(/* uid,  */email.trim()/* , name */)
+      console.log(response.user.uid)
+      let uid = response.user.uid
+      addUsertoDB(uid, email.trim(), name.trim())
       setPassword("");
     })
     .catch(error => alert(error.message))
@@ -40,14 +40,14 @@ export default function RegisterFields() {
         style={{ paddingLeft: 4,}}
         value={name}
         placeholder="Name"
-        leftIcon={{ type: 'material-community', name: 'email-outline' }}
+        leftIcon={{ type: 'simple-line-icon', name: 'user' }}
         onChangeText={input => setName(input)}
       />
       <Input
         style={{ paddingLeft: 4,}}
         value={email}
         placeholder="Email"
-        leftIcon={{ type: 'material-community', name: 'email-outline' }}
+        leftIcon={{ type: 'fontisto', name: 'email' }}
         onChangeText={input => setEmail(input)}
       />
       <Input
