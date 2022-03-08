@@ -24,8 +24,12 @@ export default function YourMom() {
   useEffect(() => {
     const usersRef = ref(database, 'userlist/');
     onValue(usersRef, (snapshot) => {
-      const data = snapshot.val();
-      setUserList(Object.values(data));
+      try {
+        const data = snapshot.val();
+        setUserList(Object?.values(data)); //kysymysmerkki ei auttanut erroriin
+      } catch (e) {
+        console.error(e);
+      }
     })}, []);
 
   return (
