@@ -14,24 +14,24 @@ export default function RegisterFields() {
 
   const navigation = useNavigation()
 
-  /* useEffect(() => {
-    unsubscribe = onAuthStateChanged(auth, user => {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
         navigation.replace("TabNavigation")
       }
     })
     return unsubscribe //jos tän jättää pois nii se heittää erroria
-  }, []) */
+  }, [])
 
   const register = () => {
-    /* createUserWithEmailAndPassword(auth, email.trim(), password)
+    createUserWithEmailAndPassword(auth, email.trim(), password)
     .then((response) => {
-      console.log(response)
-      let uid = response.user.uid
-      addUsertoDB(uid, email.trim(), name)
+      console.log(response.UserCredentialImpl)
+      /* let uid = response.user.uid */
+      addUsertoDB(/* uid,  */email.trim()/* , name */)
       setPassword("");
     })
-    .catch(error => alert(error.message)) */
+    .catch(error => alert(error.message))
   }
   
   return (
