@@ -32,11 +32,38 @@ export default function YourMom() {
       }
     })}, []);
 
+  const sendFriendRequest = (friendIud) => {
+    console.log(friendIud)
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Email: {auth.currentUser?.email}</Text>
-      <Text>Joe Mama</Text>
-      <Button onPress={signOut} title="Sign Out" />
+      <View style={styles.topOfSscreen}>
+        <Text>Email: {auth.currentUser?.email}</Text>
+        <Button onPress={signOut} title="Sign Out" />
+      </View>
+      <FlatList
+        data={userList}
+        /* contentContainerStyle={{  }} */
+        ListEmptyComponent={<Text>The list is empty, try adding some products</Text>}
+        keyExtractor={(item,index) => index.toString()}
+        renderItem={({ item }) => (
+          <ListItem bottomDivider>
+            <ListItem.Content>
+              {/* we're using the Object.values to access the value, because we don't know the key */}
+              <ListItem.Title>{Object.values(item)[0].name}</ListItem.Title> 
+              <ListItem.Subtitle>{Object.values(item)[0].email}</ListItem.Subtitle>
+            </ListItem.Content>
+            <ListItem.Content right>
+              <Icon
+                type="material-community"
+                name="account-plus" //account-clock
+                color="black"
+                onPress={() => sendFriendRequest(Object.keys(item)[0])}
+              />
+            </ListItem.Content>
+          </ListItem>)}
+      />
     </View>
   );
 }
@@ -45,7 +72,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
+    /* alignItems: 'center', */
     justifyContent: 'center',
+    width: "100%"
   },
+  topOfSscreen: {
+    alignItems: 'center',
+  }
 });

@@ -23,9 +23,10 @@ const database = getDatabase(app);
 const addUsertoDB = (uid, email, name) => {
   push(
     ref(database, 'userlist/'),
-    { "uid" : uid,
+    { [uid] : {
       "email": email,
-      "name" : name });
+      "name" : name
+    }});
 }
 
 export { auth, database, addUsertoDB };

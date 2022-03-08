@@ -29,7 +29,6 @@ export default function RegisterFields() {
       console.log(response.user.uid)
       let uid = response.user.uid
       addUsertoDB(uid, email.trim(), name.trim())
-      setPassword("");
     })
     .catch(error => alert(error.message))
   }
