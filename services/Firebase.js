@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth"
-import { getDatabase, push, ref } from 'firebase/database';
+import { getDatabase, push, set, ref } from 'firebase/database';
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 const firebaseConfig = {
@@ -19,14 +19,33 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app)
 const database = getDatabase(app);
 
+
 //realtime database
 const addUsertoDB = (uid, email, name) => {
-  push(
-    ref(database, 'userlist/'),
-    { [uid] : {
+  set(
+    ref(database, `users/${uid}/personal_info`),
+    {
       "email": email,
-      "name" : name
-    }});
+      "name" : name,
+      "uid" : uid
+    }
+  );
 }
 
-export { auth, database, addUsertoDB };
+const sendFriendRequest = (friendUid) => {
+  let userUid = auth.currentUser.uid
+  console.log(userUid, friendUid)
+  /* if (tarkista onko kavereissa yms.) {
+    
+  } else */
+  push(
+    ref(database, `users/${userUid}/sent-requests`),
+    friendUid
+  );
+  push(
+    ref(database, `users/${friendUid}/pending-requests`),
+    userUid
+  );
+}
+
+export { auth, database, addUsertoDB, sendFriendRequest };
