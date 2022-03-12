@@ -58,7 +58,7 @@ export default function RegisterFields() {
         secureTextEntry
       />
       <Button
-        buttonStyle={{}}
+        buttonStyle={{backgroundColor: "#6c5887"}}
         onPress={register}
         title="Register"
       />

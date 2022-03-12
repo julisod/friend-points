@@ -6,9 +6,9 @@ import { ref, onValue } from 'firebase/database';
 
 import { auth, database } from '../services/Firebase';
 
-export default function Friends() {
+export default function Requests() {
   
-  const [friendList, setFriendList] = useState([]);
+  const [requestList, setRequestList] = useState([]);
   
   const navigation = useNavigation()
 
@@ -30,7 +30,7 @@ export default function Friends() {
         //let userList = Object?.values(data);
         let friendUidList = Object.keys(data[userUid]?.friends)
         console.log(friendUidList)
-        setFriendList(friendUidList.map(uid =>
+        setRequestList(friendUidList.map(uid =>
           data[uid].personal_info
         ))
       } catch (e) {
@@ -43,11 +43,11 @@ export default function Friends() {
       <Header
         backgroundColor='#83677B'
         /* leftComponent={} */
-        centerComponent={{ text: 'SHOPPING LIST', style:{color: '#fff'} }}
+        centerComponent={{ text: 'FRIEND REQUESTS', style:{color: '#fff'} }}
         rightComponent={<Icon type="feather" name="log-out" onPress={signOut} color='#fff' />}
       />
       <FlatList
-        data={friendList}
+        data={requestList}
         //contentContainerStyle={{  }}
         ListEmptyComponent={<Text>The list is empty, try adding some friends</Text>}
         keyExtractor={(item,index) => index.toString()}

@@ -6,6 +6,7 @@ import { Feather, FontAwesome5, AntDesign } from '@expo/vector-icons';
 
 import Friends from './Friends';
 import YourMom from './YourMom';
+import Requests from './Requests';
 
 const screenOptions = ({ route }) => ({
     tabBarIcon: () => {
@@ -15,8 +16,12 @@ const screenOptions = ({ route }) => ({
       } else if (route.name === 'YourMom') {
         return <Feather name="user-plus" size={24} color="black" />
         /* return <FontAwesome5 name="user-plus" size={24} color="black" /> */
+      } else if (route.name === "Friend Requests") {
+        return <Feather name="clock" size={22} color="black" />
       }
-    }
+    }, 
+    headerShown: false,
+    /* tabBarStyle: {} */
   });
   
   const Tab = createBottomTabNavigator();
@@ -26,6 +31,7 @@ const screenOptions = ({ route }) => ({
         <Tab.Navigator screenOptions={screenOptions}>
           <Tab.Screen name="Friends" component={Friends} />
           <Tab.Screen name="YourMom" component={YourMom} />
+          <Tab.Screen name="Friend Requests" component={Requests} />
         </Tab.Navigator>
     );
   }

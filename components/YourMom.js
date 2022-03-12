@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, Button } from 'react-native';
-import { Input, ListItem, Icon } from 'react-native-elements';
+import { Input, ListItem, Icon, Header } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/core'
 import { ref, onValue } from 'firebase/database';
 
@@ -35,14 +35,16 @@ export default function YourMom() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.topOfSscreen}>
-        <Text>Email: {auth.currentUser?.email}</Text>
-        <Button onPress={signOut} title="Sign Out" />
-      </View>
+      <Header
+        backgroundColor='#83677B'
+        /* leftComponent={} */
+        centerComponent={{ text: 'FIND FRIENDS', style:{color: '#fff'} }}
+        rightComponent={<Icon type="feather" name="log-out" onPress={signOut} color='#fff' />}
+      />
       <FlatList
         data={userList}
         //contentContainerStyle={{  }}
-        ListEmptyComponent={<Text>The list is empty, try adding some products</Text>}
+        ListEmptyComponent={<Text>The list is empty</Text>}
         keyExtractor={(item,index) => index.toString()}
         renderItem={({ item }) => (
           <ListItem bottomDivider>
