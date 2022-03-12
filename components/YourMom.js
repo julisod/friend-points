@@ -26,7 +26,7 @@ export default function YourMom() {
     onValue(usersRef, (snapshot) => {
       try {
         const data = snapshot.val();
-        console.log(Object?.values(data))
+        /* console.log(snapshot.child("QryBKJuwAUdD8mJgb70Vv1DDv1/personal_info").exists()) */
         setUserList(Object?.values(data)); //kysymysmerkki ei auttanut erroriin
       } catch (e) {
         console.error(e);

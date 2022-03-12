@@ -1,7 +1,7 @@
-// Import the functions you need from the SDKs you need
+import { Alert } from 'react-native';
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth"
-import { getDatabase, push, set, ref } from 'firebase/database';
+import { getDatabase, push, set, ref, get, remove } from 'firebase/database';
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 const firebaseConfig = {
@@ -34,18 +34,57 @@ const addUsertoDB = (uid, email, name) => {
 
 const sendFriendRequest = (friendUid) => {
   let userUid = auth.currentUser.uid
-  console.log(userUid, friendUid)
-  /* if (tarkista onko kavereissa yms.) {
+
+  const userRef = ref(database, 'users/' + userUid);
+  get(userRef).then((snapshot) => {
     
-  } else */
-  push(
-    ref(database, `users/${userUid}/sent-requests`),
-    friendUid
-  );
-  push(
-    ref(database, `users/${friendUid}/pending-requests`),
-    userUid
-  );
+    //first we have to check if we can send the request
+    if (snapshot.child("friends/" + friendUid).exists()) {
+      Alert.alert("This user is already in your friends")
+
+    } else if (snapshot.child("pending-requests/" + friendUid).exists()) {
+      addToFriends(friendUid);
+
+    } else if (snapshot.child("sent-requests/" + friendUid).exists()) {
+      Alert.alert("You have already sent them a friend request")
+
+    } else {
+
+      //here we're actually saving the request to db
+      set(
+        ref(database, `users/${userUid}/sent-requests`),
+        {[friendUid]: true}
+      );
+      set(
+        ref(database, `users/${friendUid}/pending-requests`),
+        {[userUid]: true}
+      );
+    }
+  }).catch((error) => {
+    console.error(error);
+  });
 }
+
+const addToFriends = (friendUid) => {
+  let userUid = auth.currentUser.uid
+
+  //remove the friend requests
+  remove(ref(database, `users/${userUid}/sent-requests/`));
+  remove(ref(database, `users/${userUid}/pending-requests/${friendUid}`));
+  remove(ref(database, `users/${friendUid}/sent-requests/${userUid}`));
+  remove(ref(database,`users/${friendUid}/pending-requests/${userUid}`));
+
+  //add to friend list
+  set(
+    ref(database, `users/${userUid}/friends`),
+    {[friendUid]: true}
+  );
+  set(
+    ref(database, `users/${friendUid}/friends`),
+    {[userUid]: true}
+  );
+    //toast tähän??
+  console.log("added to friends")
+  }
 
 export { auth, database, addUsertoDB, sendFriendRequest };
