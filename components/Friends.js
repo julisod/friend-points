@@ -26,15 +26,14 @@ export default function Friends() {
     onValue(usersRef, (snapshot) => {
       try {
         const data = snapshot.val();
-        let userUid = auth.currentUser.uid
-        //let userList = Object?.values(data);
+        let userUid = auth.currentUser.uid;
         let friendUidList = Object.keys(data[userUid]?.friends)
-        console.log(friendUidList)
         setFriendList(friendUidList.map(uid =>
           data[uid].personal_info
         ))
       } catch (e) {
-        console.error(e);
+        console.log("couldn't update list");
+        setFriendList([]);
       }
     })}, []);
   
@@ -43,20 +42,26 @@ export default function Friends() {
       <Header
         backgroundColor='#83677B'
         /* leftComponent={} */
-        centerComponent={{ text: 'SHOPPING LIST', style:{color: '#fff'} }}
+        centerComponent={{ text: 'FRIENDS', style:{color: '#fff'} }}
         rightComponent={<Icon type="feather" name="log-out" onPress={signOut} color='#fff' />}
       />
       <FlatList
         data={friendList}
         //contentContainerStyle={{  }}
-        ListEmptyComponent={<Text>The list is empty, try adding some friends</Text>}
+        ListEmptyComponent={
+          <View style={{justifyContent: 'center', alignItems: 'center', marginTop: "5%", width: "95%"}}>
+            <Text style={{textAlign: 'center', fontSize: 16, fontStyle: 'italic'}}>
+              The list is empty, try adding some friends.
+            </Text>
+          </View>
+        }
         keyExtractor={(item,index) => index.toString()}
         renderItem={({ item }) => (
           <ListItem bottomDivider>
             <ListItem.Content>
               {/* we're using the Object.values to access the value, because we don't know the key */}
               <ListItem.Title>{item.name}</ListItem.Title> 
-              <ListItem.Subtitle>{item.email}</ListItem.Subtitle>
+              <ListItem.Subtitle>{item.username}</ListItem.Subtitle>
             </ListItem.Content>
             <ListItem.Content right>
               {/* <Icon

@@ -36,6 +36,7 @@ export default function LoginFields() {
         style={{ paddingLeft: 4,}}
         value={email}
         placeholder="Email"
+        autoCapitalize='none'
         leftIcon={{ type: 'fontisto', name: 'email' }}
         onChangeText={input => setEmail(input)}
       />
@@ -48,7 +49,7 @@ export default function LoginFields() {
         secureTextEntry
       />
       <Button
-        buttonStyle={{}}
+        buttonStyle={{backgroundColor: "#6c5887"}}
         onPress={login}
         title="Login"
       />  

@@ -4,7 +4,7 @@ import { Input, ListItem, Icon, Header } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/core'
 import { ref, onValue } from 'firebase/database';
 
-import { auth, database } from '../services/Firebase';
+import { auth, database, addToFriends, rejectRequest } from '../services/Firebase';
 
 export default function Requests() {
   
@@ -26,15 +26,14 @@ export default function Requests() {
     onValue(usersRef, (snapshot) => {
       try {
         const data = snapshot.val();
-        let userUid = auth.currentUser.uid
-        //let userList = Object?.values(data);
-        let friendUidList = Object.keys(data[userUid]?.friends)
-        console.log(friendUidList)
+        let userUid = auth.currentUser.uid;
+        let friendUidList = Object.keys(data[userUid]?.pending_requests);
         setRequestList(friendUidList.map(uid =>
           data[uid].personal_info
         ))
       } catch (e) {
-        console.error(e);
+        console.log("couldn't update requestlist");
+        setRequestList([]);
       }
     })}, []);
   
@@ -49,22 +48,37 @@ export default function Requests() {
       <FlatList
         data={requestList}
         //contentContainerStyle={{  }}
-        ListEmptyComponent={<Text>The list is empty, try adding some friends</Text>}
+        ListEmptyComponent={
+          <View style={{justifyContent: 'center', alignItems: 'center', marginTop: "5%", width: "95%"}}>
+            <Text style={{textAlign: 'center', fontSize: 16, fontStyle: 'italic'}}>
+              The list is empty, ask someone to send you a friend request.
+            </Text>
+          </View>
+        }
         keyExtractor={(item,index) => index.toString()}
         renderItem={({ item }) => (
           <ListItem bottomDivider>
             <ListItem.Content>
               {/* we're using the Object.values to access the value, because we don't know the key */}
               <ListItem.Title>{item.name}</ListItem.Title> 
-              <ListItem.Subtitle>{item.email}</ListItem.Subtitle>
+              <ListItem.Subtitle>{item.username}</ListItem.Subtitle>
             </ListItem.Content>
             <ListItem.Content right>
-              {/* <Icon
+              <View style={{flexDirection: 'row'}}>
+              <Icon
                 type="material-community"
-                name="account-plus" //account-clock
+                name="cancel"
                 color="black"
-                onPress={() => sendFriendRequest(item.personal_info.uid)}
-              /> */}
+                onPress={() => {rejectRequest(item.uid)}}
+              />
+              <View style={{width: 25}}></View>
+              <Icon
+                type="feather"
+                name="check"
+                color="black"
+                onPress={() => {addToFriends(item.uid)}}
+              />
+              </View>
             </ListItem.Content>
           </ListItem>)}
       />

@@ -5,7 +5,7 @@ import { Feather, FontAwesome5, AntDesign } from '@expo/vector-icons';
 //expo install react-native-screens react-native-safe-area-context
 
 import Friends from './Friends';
-import YourMom from './YourMom';
+import FindFriends from './FindFriends';
 import Requests from './Requests';
 
 const screenOptions = ({ route }) => ({
@@ -13,7 +13,7 @@ const screenOptions = ({ route }) => ({
       if (route.name === 'Friends') {
         return <Feather name="users" size={24} color="black" />;
         /* return <FontAwesome5 name="user-friends" size={24} color="black" />; */
-      } else if (route.name === 'YourMom') {
+      } else if (route.name === 'Find Friends') {
         return <Feather name="user-plus" size={24} color="black" />
         /* return <FontAwesome5 name="user-plus" size={24} color="black" /> */
       } else if (route.name === "Friend Requests") {
@@ -30,7 +30,7 @@ const screenOptions = ({ route }) => ({
     return (
         <Tab.Navigator screenOptions={screenOptions}>
           <Tab.Screen name="Friends" component={Friends} />
-          <Tab.Screen name="YourMom" component={YourMom} />
+          <Tab.Screen name="Find Friends" component={FindFriends} />
           <Tab.Screen name="Friend Requests" component={Requests} />
         </Tab.Navigator>
     );

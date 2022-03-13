@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/core'
 import { StyleSheet, Text, View } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button, Header } from 'react-native-elements';
 
 import LoginFields from './LoginFields';
 import RegisterFields from './RegisterFields';
@@ -11,8 +11,11 @@ export default function LoginScreen() {
   
   return (
     <View style={styles.container}>
-      <View style={styles.buttons}>
-        <Button
+      <Header
+        style={styles.header}
+        backgroundColor='#83677B'
+        leftComponent={
+          <Button
           buttonStyle={{
             backgroundColor: 'rgba(111, 202, 186, 1)',
           }}
@@ -20,15 +23,26 @@ export default function LoginScreen() {
           onPress={() => setRegistering(false)}
           title="Login"
         />
-        <Button
-          buttonStyle={{
-            backgroundColor: 'rgba(111, 202, 186, 1)',
-          }}
-          disabled={registering}
-          onPress={() => setRegistering(true)}
-          title="Register"
-        />
-      </View>
+        }
+
+        centerComponent={{
+          text: registering ? 'REGISTER': "LOGIN",
+          style:{color: '#fff'}
+        }}
+
+        rightComponent={
+          <View style={{width: 80}}>
+            <Button
+            buttonStyle={{
+              backgroundColor: 'rgba(111, 202, 186, 1)',
+            }}
+            disabled={registering}
+            onPress={() => setRegistering(true)}
+            title="Register"
+            />
+          </View>
+        }
+      />
       <View style={styles.fields}>
         {registering ? <RegisterFields /> : <LoginFields />}
       </View>
@@ -43,17 +57,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  buttons: {
-    /* backgroundColor: "black", */
-    width: "60%",
-    marginBottom: "30%",
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    margin: 10
-  },
   fields: {
+    flex: 3,
+    margin: "auto",
     alignItems: 'stretch',
     justifyContent: 'center',
-    width: "90%"
+    width: "90%",
+  },
+  header: {
+    flex: 1
   }
 });

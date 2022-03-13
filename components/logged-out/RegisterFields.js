@@ -8,9 +8,11 @@ import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/aut
 
 
 export default function RegisterFields() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [username, setUsername] = useState('')
 
   const navigation = useNavigation()
 
@@ -28,7 +30,7 @@ export default function RegisterFields() {
     .then((response) => {
       console.log(response.user.uid)
       let uid = response.user.uid
-      addUsertoDB(uid, email.trim(), name.trim())
+      addUsertoDB(uid, email.trim(), name.trim(), username.trim())
     })
     .catch(error => alert(error.message))
   }
@@ -44,8 +46,17 @@ export default function RegisterFields() {
       />
       <Input
         style={{ paddingLeft: 4,}}
+        value={username}
+        placeholder="Username"
+        autoCapitalize='none'
+        leftIcon={{ type: 'simple-line-icon', name: 'pencil' }}
+        onChangeText={input => setUsername(input)}
+      />
+      <Input
+        style={{ paddingLeft: 4,}}
         value={email}
         placeholder="Email"
+        autoCapitalize='none'
         leftIcon={{ type: 'fontisto', name: 'email' }}
         onChangeText={input => setEmail(input)}
       />

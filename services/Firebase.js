@@ -21,12 +21,13 @@ const database = getDatabase(app);
 
 
 //realtime database
-const addUsertoDB = (uid, email, name) => {
+const addUsertoDB = (uid, email, name, username) => {
   set(
     ref(database, `users/${uid}/personal_info`),
     {
       "email": email,
       "name" : name,
+      "username": username,
       "uid" : uid
     }
   );
@@ -42,22 +43,22 @@ const sendFriendRequest = (friendUid) => {
     if (snapshot.child("friends/" + friendUid).exists()) {
       Alert.alert("This user is already in your friends")
 
-    } else if (snapshot.child("pending-requests/" + friendUid).exists()) {
+    } else if (snapshot.child("pending_requests/" + friendUid).exists()) {
       addToFriends(friendUid);
 
-    } else if (snapshot.child("sent-requests/" + friendUid).exists()) {
+    } else if (snapshot.child("sent_requests/" + friendUid).exists()) {
       Alert.alert("You have already sent them a friend request")
 
     } else {
 
       //here we're actually saving the request to db
       set(
-        ref(database, `users/${userUid}/sent-requests`),
-        {[friendUid]: true}
+        ref(database, `users/${userUid}/sent_requests/${friendUid}`),
+        true
       );
       set(
-        ref(database, `users/${friendUid}/pending-requests`),
-        {[userUid]: true}
+        ref(database, `users/${friendUid}/pending_requests/${userUid}`),
+        true
       );
     }
   }).catch((error) => {
@@ -68,23 +69,30 @@ const sendFriendRequest = (friendUid) => {
 const addToFriends = (friendUid) => {
   let userUid = auth.currentUser.uid
 
-  //remove the friend requests
-  remove(ref(database, `users/${userUid}/sent-requests/`));
-  remove(ref(database, `users/${userUid}/pending-requests/${friendUid}`));
-  remove(ref(database, `users/${friendUid}/sent-requests/${userUid}`));
-  remove(ref(database,`users/${friendUid}/pending-requests/${userUid}`));
+  rejectRequest(friendUid);
 
   //add to friend list
   set(
-    ref(database, `users/${userUid}/friends`),
-    {[friendUid]: true}
+    ref(database, `users/${userUid}/friends/${friendUid}`),
+    true
   );
   set(
-    ref(database, `users/${friendUid}/friends`),
-    {[userUid]: true}
+    ref(database, `users/${friendUid}/friends/${userUid}`),
+    true
   );
     //toast tähän??
   console.log("added to friends")
-  }
+}
 
-export { auth, database, addUsertoDB, sendFriendRequest };
+const rejectRequest = (friendUid) => {
+  let userUid = auth.currentUser.uid
+  
+  //remove the friend requests
+  remove(ref(database, `users/${userUid}/sent_requests/`));
+  remove(ref(database, `users/${userUid}/pending_requests/${friendUid}`));
+  remove(ref(database, `users/${friendUid}/sent_requests/${userUid}`));
+  remove(ref(database, `users/${friendUid}/pending_requests/${userUid}`));
+
+}
+
+export { auth, database, addUsertoDB, sendFriendRequest, addToFriends, rejectRequest };
