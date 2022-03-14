@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/core'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 
 import { addUsertoDB, auth } from './../../services/Firebase';

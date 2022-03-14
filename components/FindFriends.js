@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, Button } from 'react-native';
-import { Input, ListItem, Icon, Header } from 'react-native-elements';
+import { ListItem, Icon, Header } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/core'
 import { ref, onValue } from 'firebase/database';
 
@@ -11,7 +11,7 @@ export default function FindFriends() {
   const navigation = useNavigation()
 
   const [userList, setUserList] = useState([]);
-  const [usersRequests, setUsersRequests] = useState([]);
+  const [user, setUser] = useState([]);
 
   const signOut = () => {
     auth
@@ -30,7 +30,7 @@ export default function FindFriends() {
         const data = snapshot.val();
         /* console.log(snapshot.child("QryBKJuwAUdD8mJgb70Vv1DDv1/personal_info").exists()) */
         setUserList(Object?.values(data)); //kysymysmerkki ei auttanut erroriin
-        setUsersRequests(Object.keys(data[userUid].sent_requests));
+        setUser(data[userUid]);
       } catch (e) {
         console.log(e);
       }
@@ -39,11 +39,11 @@ export default function FindFriends() {
     const getIcon = (friendUid) => {
       //get the right icon based on if the user has already sent a friend request
       try {
-        if (usersRequests.indexOf(friendUid) > -1) {
+        if (Object.keys(user.sent_requests).indexOf(friendUid) > -1) {
           return(
             <Icon
               type="material-community"
-              name="account-clock" //account-clock, TODO
+              name="account-clock"
               color="black"
             />
           )
@@ -51,6 +51,20 @@ export default function FindFriends() {
       } catch (e) {
         console.log("no requests")
       }
+      try {
+        if (Object.keys(user.friends).indexOf(friendUid) > -1) {
+          return(
+            <Icon
+              type="material-community"
+              name="account-check"
+              color="black"
+            />
+          )
+        }
+      } catch (e) {
+        console.log("no friends")
+      }
+
       return(
         <Icon
           type="material-community"

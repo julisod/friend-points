@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, Button } from 'react-native';
-import { Input, ListItem, Icon, Header } from 'react-native-elements';
+import { ListItem, Icon, Header } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/core'
 import { ref, onValue } from 'firebase/database';
 
@@ -64,12 +64,7 @@ export default function Friends() {
               <ListItem.Subtitle>{item.username}</ListItem.Subtitle>
             </ListItem.Content>
             <ListItem.Content right>
-              {/* <Icon
-                type="material-community"
-                name="account-plus" //account-clock
-                color="black"
-                onPress={() => sendFriendRequest(item.personal_info.uid)}
-              /> */}
+              
             </ListItem.Content>
           </ListItem>)}
       />

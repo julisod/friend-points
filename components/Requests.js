@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, Button } from 'react-native';
-import { Input, ListItem, Icon, Header } from 'react-native-elements';
+import { ListItem, Icon, Header } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/core'
 import { ref, onValue } from 'firebase/database';
 

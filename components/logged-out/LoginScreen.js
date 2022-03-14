@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/core'
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState} from 'react';
+import { StyleSheet, View } from 'react-native';
 import { Button, Header } from 'react-native-elements';
 
 import LoginFields from './LoginFields';
@@ -15,14 +14,18 @@ export default function LoginScreen() {
         style={styles.header}
         backgroundColor='#83677B'
         leftComponent={
-          <Button
-          buttonStyle={{
-            backgroundColor: 'rgba(111, 202, 186, 1)',
-          }}
-          disabled={!registering}
-          onPress={() => setRegistering(false)}
-          title="Login"
-        />
+          registering
+          ?
+            <Button
+            buttonStyle={{
+              backgroundColor: '#a796c6',
+            }}
+            disabled={!registering}
+            onPress={() => setRegistering(false)}
+            title="Login"
+            />
+          :
+            null
         }
 
         centerComponent={{
@@ -31,16 +34,20 @@ export default function LoginScreen() {
         }}
 
         rightComponent={
-          <View style={{width: 80}}>
-            <Button
-            buttonStyle={{
-              backgroundColor: 'rgba(111, 202, 186, 1)',
-            }}
-            disabled={registering}
-            onPress={() => setRegistering(true)}
-            title="Register"
-            />
-          </View>
+          !registering
+          ?
+            <View style={{width: 80}}>
+              <Button
+              buttonStyle={{
+                backgroundColor: "#a796c6"
+              }}
+              disabled={registering}
+              onPress={() => setRegistering(true)}
+              title="Register"
+              />
+            </View>
+          :
+            null
         }
       />
       <View style={styles.fields}>

@@ -1,7 +1,7 @@
 import { Alert } from 'react-native';
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth"
-import { getDatabase, push, set, ref, get, remove } from 'firebase/database';
+import { getDatabase, set, ref, get, remove } from 'firebase/database';
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 const firebaseConfig = {
