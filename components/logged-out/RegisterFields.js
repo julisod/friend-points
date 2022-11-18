@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/core'
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 
 import { addUsertoDB, auth } from './../../services/Firebase';
@@ -22,13 +22,12 @@ export default function RegisterFields() {
         navigation.replace("TabNavigation")
       }
     })
-    return unsubscribe //jos tän jättää pois nii se heittää erroria
+    return unsubscribe
   }, [])
 
   const register = () => {
     createUserWithEmailAndPassword(auth, email.trim(), password)
     .then((response) => {
-      console.log(response.user.uid)
       let uid = response.user.uid
       addUsertoDB(uid, email.trim(), name.trim(), username.trim())
     })
@@ -73,6 +72,9 @@ export default function RegisterFields() {
         onPress={register}
         title="Register"
       />
+      <Text style={{textAlign: 'center', marginTop: 40, color: 'gray'}}>
+        Your name and username will be shown to other users
+      </Text>
     </View>
   );
 }

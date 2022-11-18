@@ -12,10 +12,8 @@ const screenOptions = ({ route }) => ({
     tabBarIcon: () => {
       if (route.name === 'Friends') {
         return <Feather name="users" size={24} color="black" />;
-        /* return <FontAwesome5 name="user-friends" size={24} color="black" />; */
       } else if (route.name === 'Find Friends') {
         return <Feather name="user-plus" size={24} color="black" />
-        /* return <FontAwesome5 name="user-plus" size={24} color="black" /> */
       } else if (route.name === "Friend Requests") {
         return <Feather name="clock" size={22} color="black" />
       }

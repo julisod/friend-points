@@ -20,7 +20,7 @@ const auth = getAuth(app)
 const database = getDatabase(app);
 
 
-//realtime database
+// Realtime database
 const addUsertoDB = (uid, email, name, username) => {
   set(
     ref(database, `users/${uid}/personal_info`),
@@ -30,7 +30,13 @@ const addUsertoDB = (uid, email, name, username) => {
       "username": username,
       "uid" : uid
     }
-  );
+  )
+  .then(() => {
+    console.log("Succesfully saved user to db")
+  })
+  .catch((error) => {
+    console.log("Failed adding user to db");
+  });
 }
 
 const sendFriendRequest = (friendUid) => {
@@ -39,7 +45,7 @@ const sendFriendRequest = (friendUid) => {
   const userRef = ref(database, 'users/' + userUid);
   get(userRef).then((snapshot) => {
     
-    //first we have to check if we can send the request
+    // First we have to check if we can send the request
     if (snapshot.child("friends/" + friendUid).exists()) {
       Alert.alert("This user is already in your friends")
 
@@ -51,7 +57,7 @@ const sendFriendRequest = (friendUid) => {
 
     } else {
 
-      //here we're actually saving the request to db
+      // Here we're actually saving the request to db
       set(
         ref(database, `users/${userUid}/sent_requests/${friendUid}`),
         true
@@ -69,9 +75,9 @@ const sendFriendRequest = (friendUid) => {
 const addToFriends = (friendUid) => {
   let userUid = auth.currentUser.uid
 
-  rejectRequest(friendUid);
+  removeRequest(friendUid);
 
-  //add to friend list
+  // Add to friend list
   set(
     ref(database, `users/${userUid}/friends/${friendUid}`),
     true
@@ -84,10 +90,10 @@ const addToFriends = (friendUid) => {
   console.log("added to friends")
 }
 
-const rejectRequest = (friendUid) => {
+const removeRequest = (friendUid) => {
   let userUid = auth.currentUser.uid
   
-  //remove the friend requests
+  // Remove the friend requests
   remove(ref(database, `users/${userUid}/sent_requests/`));
   remove(ref(database, `users/${userUid}/pending_requests/${friendUid}`));
   remove(ref(database, `users/${friendUid}/sent_requests/${userUid}`));
@@ -95,4 +101,4 @@ const rejectRequest = (friendUid) => {
 
 }
 
-export { auth, database, addUsertoDB, sendFriendRequest, addToFriends, rejectRequest };
+export { auth, database, addUsertoDB, sendFriendRequest, addToFriends, removeRequest };

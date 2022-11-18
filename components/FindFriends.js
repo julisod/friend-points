@@ -37,7 +37,7 @@ export default function FindFriends() {
     })}, []);
 
     const getIcon = (friendUid) => {
-      //get the right icon based on if the user has already sent a friend request
+      // Get the right icon based on if the user has already sent a friend request
       try {
         if (Object.keys(user.sent_requests).indexOf(friendUid) > -1) {
           return(
@@ -68,7 +68,7 @@ export default function FindFriends() {
       return(
         <Icon
           type="material-community"
-          name="account-plus" //account-clock, TODO
+          name="account-plus"
           color="black"
           onPress={() => sendFriendRequest(friendUid)}
           />

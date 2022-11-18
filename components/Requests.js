@@ -4,7 +4,7 @@ import { ListItem, Icon, Header } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/core'
 import { ref, onValue } from 'firebase/database';
 
-import { auth, database, addToFriends, rejectRequest } from '../services/Firebase';
+import { auth, database, addToFriends, removeRequest } from '../services/Firebase';
 
 export default function Requests() {
   
@@ -69,7 +69,7 @@ export default function Requests() {
                 type="material-community"
                 name="cancel"
                 color="black"
-                onPress={() => {rejectRequest(item.uid)}}
+                onPress={() => {removeRequest(item.uid)}}
               />
               <View style={{width: 25}}></View>
               <Icon
